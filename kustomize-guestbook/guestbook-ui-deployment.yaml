@@ -14,10 +14,9 @@ spec:
         app: guestbook-ui
     spec:
       containers:
-      - image: hub.docker.com/u/dock15/cicd:v2
+      - image: registry.hub.docker.com/dock15/cicd:v2
         name: guestbook-ui
         ports:
         - containerPort: 80
-        - name: your-secret-name
       imagePullSecrets:
-        - name: dockerhub-secret
+        - name: dockersect

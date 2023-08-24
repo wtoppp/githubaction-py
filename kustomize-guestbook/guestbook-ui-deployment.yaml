@@ -18,5 +18,6 @@ spec:
         name: guestbook-ui
         ports:
         - containerPort: 80
+        - name: your-secret-name
       imagePullSecrets:
-    -   - name: dockerhub-secret
+        - name: dockerhub-secret

@@ -25,3 +25,7 @@ jobs:
         if: ${{ github.event.inputs.image}}
         with:
           message: "kustomize set image to ${{ github.event.inputs.image }}:${{ github.event.inputs.sha-tag }}"
+      - name: Print the input name to STDOUT
+        run: echo The username is ${{ github.event.inputs.image }}
+      - name: Print the person token
+        run: echo The flask-demo-citoken ${{ github.flask-demo-citoken }}

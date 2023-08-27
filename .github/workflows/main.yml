@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+  workflow_dispatch:
+    inputs:
+      image:
+        required: true
+        description: 'docker image name'
+      sha-tag:
+        required: true
+        description: 'docker image name' 
+jobs:
+  buildimg:
+    runs-on: ubuntu-latest
+    concurrency: production
+    steps:
+      - uses: actions/checkout@v2
+        if: ${{ github.event.inputs.image }}
+
+      - name: Gitcommit/push Changes
+        uses: actions-x/commit@v2
+        if: ${{ github.event.inputs.image}}
+        with:
+          message: "kustomize set image to ${{ github.event.inputs.image }}:${{ github.event.inputs.sha-tag }}"
+	

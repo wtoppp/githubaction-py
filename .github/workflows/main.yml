@@ -25,4 +25,3 @@ jobs:
         if: ${{ github.event.inputs.image}}
         with:
           message: "kustomize set image to ${{ github.event.inputs.image }}:${{ github.event.inputs.sha-tag }}"
-	

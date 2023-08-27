@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: main
+    branches: [ master ]
   pull_request:
-    branches: main
+    branches: [ master ]
   workflow_dispatch:
     inputs:
       image:
@@ -11,17 +11,22 @@ on:
         description: 'docker image name'
       sha-tag:
         required: true
-        description: 'docker image name' 
+        description: 'docker image tag'
 jobs:
-  buildimg:
+  build:
     runs-on: ubuntu-latest
-    concurrency: production
     steps:
       - uses: actions/checkout@v2
         if: ${{ github.event.inputs.image }}
-
-      - name: Gitcommit/push Changes
+      
+      - name: kustomize edit
+        if: ${{ github.event.inputs.image }}
+        run: |
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+          kustomize edit set image ${{ github.event.inputs.image }}:${{ github.event.inputs.sha-tag }}
+          rm -f kustomize
+      - name: Git Commit/Push Changes
         uses: actions-x/commit@v2
-        if: ${{ github.event.inputs.image}}
+        if: ${{ github.event.inputs.image }}
         with:
           message: "kustomize set image to ${{ github.event.inputs.image }}:${{ github.event.inputs.sha-tag }}"
